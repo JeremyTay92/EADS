@@ -156,10 +156,6 @@ public class Picker {
 
         return returnMap;
     }
-
-    public String getId() {
-        return id;
-    }
     
     public String toString(){
         return "Picker " + id;

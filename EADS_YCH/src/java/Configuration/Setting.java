@@ -10,8 +10,7 @@ package Configuration;
  * @author Boon Keat
  */
 public class Setting {
-    public static String directory = "C:\\Users\\Jeremy\\Downloads\\EADS (IS421)\\Proj\\EADS_YCH (4)\\EADS_YCH";
-    public static String fileName = directory + "\\test\\SMU SIS EADS Data v2.xlsx";
+    public static String fileName = "test/SMU SIS EADS Data v2.xlsx";
     public static String startPoint = "05X07";
     public static String endPoint = "18X07";
     
@@ -67,7 +66,7 @@ public class Setting {
     public static String endingRack = "56";
     
     public static int numOfPicker = 4;
-    public static int numOfForkLift = 2;
+    public static int numOfForkLift = 4;
     
     public static int laneStringPostion = 0;
     public static int laneStringLength = 2;
@@ -93,41 +92,4 @@ public class Setting {
     public static int orderNumOfCartonIndex = 3;
     public static int orderCreationDateIndex = 4;
     public static int orderLocationIndex = 5;
-    
-    
-    public static void setStartPoint(String startPoint) {
-        Setting.startPoint = startPoint;
-    }
-
-    public static void setEndPoint(String endPoint) {
-        Setting.endPoint = endPoint;
-    }
-
-    public static void setSimilarityThreshold(double similarityThreshold) {
-        Setting.similarityThreshold = similarityThreshold;
-    }
-
-    public static void setHumanTravellingSpeed(double humanTravellingSpeed) {
-        Setting.humanTravellingSpeed = humanTravellingSpeed;
-    }
-
-    public static void setForkliftTravellingSpeed(double forkliftTravellingSpeed) {
-        Setting.forkliftTravellingSpeed = forkliftTravellingSpeed;
-    }
-
-    public static void setNumOfPicker(int numOfPicker) {
-        Setting.numOfPicker = numOfPicker;
-    }
-
-    public static void setNumOfForkLift(int numOfForkLift) {
-        Setting.numOfForkLift = numOfForkLift;
-    }
-
-    public static void setHumanWeightBudget(double humanWeightBudget) {
-        Setting.humanWeightBudget = humanWeightBudget;
-    }
-
-    public static void setForkliftWeightBudget(double forkliftWeightBudget) {
-        Setting.forkliftWeightBudget = forkliftWeightBudget;
-    }
 }

@@ -25,7 +25,6 @@ import Entity.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.TreeMap;
 
 /**
  *
@@ -33,8 +32,7 @@ import java.util.TreeMap;
  */
 public class Main {
 
-    public static TreeMap<String,HashMap<String, ArrayList<Location>>> main(String[] args) throws Exception {
-		TreeMap<String,HashMap<String,ArrayList<Location>>> returnData = null;
+    public static void main(String[] args) throws Exception {
         //load & set data
         ProductDAO.loadData(Setting.fileName);
         OrderDAO.loadData(Setting.fileName);
@@ -53,7 +51,6 @@ public class Main {
         System.out.println("Batch size: " + batchPickingList.size());
 
         String from = "";
-		returnData = new TreeMap<>();
 
 //        Location startLocation = new Location(Setting.startPoint, new ArrayList<PickItem>());
 //        Location endLocation = new Location(Setting.endPoint, new ArrayList<PickItem>());
@@ -67,7 +64,6 @@ public class Main {
 
             ArrayList<Picker> humanList = OrderController.getHumanList();
             ArrayList<Picker> forkliftList = OrderController.getForkLiftList();
-			HashMap<String, ArrayList<Location>> batchData = new HashMap<>();
 
             //generate the route for each human picker
             for (Picker picker : humanList) {
@@ -168,12 +164,11 @@ public class Main {
 //                    }
 
                     System.out.println(from + "Picker-" + picker.toString() + ": " + route);
-					batchData.put("Picker-" + picker.getId(), route);
                 }
 
             }
 
-            //generate the route for each forklift picker
+            //generate the route for each human picker
             for (Picker picker : forkliftList) {
 
                 ArrayList<Location> route = null;
@@ -251,7 +246,6 @@ public class Main {
                 } else {
 
                     System.out.println(from + "ForkLift-" + picker.toString() + ": " + route);
-                    batchData.put("Forklift-" + picker.getId(), route);
                     
 //                    for (Location loc : route) {
 //                        if (loc.getPickingList().size() > 1) {
@@ -262,14 +256,8 @@ public class Main {
 
                 }
             }
-			int batchNumber = Integer.parseInt(batchId.replace("batch",""));
-            if (batchNumber<10){
-                returnData.put("Batch 0"+batchNumber,batchData);
-            } else {
-                returnData.put("Batch "+batchNumber,batchData);
-            }
+
             System.out.println("================================================");
         }
-		return returnData;
     }
 }
