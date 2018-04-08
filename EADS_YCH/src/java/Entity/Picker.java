@@ -211,4 +211,8 @@ public class Picker {
 ////        System.out.println(location + "-Size : " + value);
 //        return value;
 //    }
+
+    public String getId() {
+        return id;
+    }
 }

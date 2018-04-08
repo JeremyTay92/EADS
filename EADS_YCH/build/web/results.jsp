@@ -187,11 +187,11 @@
                         ArrayList<Location> visitedLocation = new ArrayList<>();
                 %>
                 <table cellspacing="0">
-                <tr style="align: center; font-size:20px">
+                <header class="nav">
                     <%
                         out.println(picker);
                     %>  
-                </tr>
+                </header>
                     <tr>
                         <td>
                             Sequence
