@@ -66,7 +66,7 @@ public class Setting {
     public static String endingRack = "56";
     
     public static int numOfPicker = 4;
-    public static int numOfForkLift = 4;
+    public static int numOfForkLift = 2;
     
     public static int laneStringPostion = 0;
     public static int laneStringLength = 2;

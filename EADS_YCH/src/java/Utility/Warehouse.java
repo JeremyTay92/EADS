@@ -43,7 +43,7 @@ public class Warehouse {
             int firstLaneNum = Integer.parseInt(firstLane);
             int secondLaneNum = Integer.parseInt(secondLane);
 
-            distanceLaneUnit = Math.abs(secondLaneNum - firstLaneNum);
+            distanceLaneUnit = Math.abs(secondLaneNum - firstLaneNum) - 1;
             distanceLaneSpaceUnit = roundUp(Math.abs(secondLaneNum - firstLaneNum) / 2.0);
         }
 
