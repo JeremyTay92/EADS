@@ -62,31 +62,31 @@ public class InputServlet extends HttpServlet {
                 //System.out.println("Check if modify:" + Setting.numOfForkLift);
             }
 
-            if (!(workerSpeed != null || workerSpeed.equals(""))){
+            if (!(workerSpeed == null || workerSpeed.equals(""))){
                 Setting.setHumanTravellingSpeed(Integer.parseInt(workerSpeed)) ;
             }
             
-            if (!(forkliftSpeed != null || forkliftSpeed.equals(""))){
+            if (!(forkliftSpeed == null || forkliftSpeed.equals(""))){
                 Setting.setForkliftTravellingSpeed(Integer.parseInt(forkliftSpeed)) ;
             }
             
-            if (!(workerCapacity != null || workerCapacity.equals(""))){
+            if (!(workerCapacity == null || workerCapacity.equals(""))){
                 Setting.setHumanWeightBudget(Integer.parseInt(workerCapacity)) ;
             }
             
-            if (!(forkliftCapacity != null || forkliftCapacity.equals(""))){
+            if (!(forkliftCapacity == null || forkliftCapacity.equals(""))){
                 Setting.setForkliftWeightBudget(Integer.parseInt(forkliftCapacity)) ;
             }
             
-            if (!(similarityThreshold != null || similarityThreshold.equals(""))){
+            if (!(similarityThreshold == null || similarityThreshold.equals(""))){
                 Setting.setSimilarityThreshold(Integer.parseInt(similarityThreshold)) ;
             }
             
-            if (!(startingPoint != null || startingPoint.equals(""))){
+            if (!(startingPoint == null || startingPoint.equals(""))){
                 Setting.setStartPoint(startingPoint);
             }
             
-            if (!(endingPoint != null || endingPoint.equals(""))){
+            if (!(endingPoint == null || endingPoint.equals(""))){
                 Setting.setEndPoint(endingPoint);
             }
             TreeMap<String,HashMap<String, ArrayList<Location>>> returnData = new TreeMap<>();
