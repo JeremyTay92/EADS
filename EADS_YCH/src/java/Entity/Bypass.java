@@ -9,7 +9,7 @@ package Entity;
  *
  * @author Boon Keat
  */
-public class Bypass {
+public class Bypass implements Comparable<Bypass>{
     private String rack;
     private char level;
 
@@ -32,5 +32,14 @@ public class Bypass {
 
     public void setLevel(char level) {
         this.level = level;
+    }
+    
+    public String toString(){
+        return level+rack;
+    }
+
+    @Override
+    public int compareTo(Bypass o) {
+        return toString().compareTo(o.toString());
     }
 }
