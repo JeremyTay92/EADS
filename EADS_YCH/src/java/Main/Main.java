@@ -14,6 +14,7 @@ import Algorithm.TSPGenetic.TSP_GA;
 import CPLEX.TeamOrienteeringProblem;
 import Configuration.Setting;
 import Controller.OrderController;
+import DAO.BatchOrderDAO;
 import DAO.BypassDAO;
 import DAO.LevelDAO;
 import DAO.OrderDAO;
@@ -22,6 +23,7 @@ import Entity.Order;
 import Entity.PickItem;
 import Entity.Picker;
 import Entity.Product;
+import Utility.Warehouse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -38,6 +40,24 @@ public class Main {
         OrderDAO.loadData(Setting.fileName);
         BypassDAO.setBypasses("B29:B30,X29:Z30");
         LevelDAO.setHumanLevel("X:Z");
+//        
+//        System.out.println(Warehouse.calculateDistance("07C45M", "07C46"));
+//        System.out.println(Warehouse.calculateDistance("07C46", "07C45M"));
+//        
+//        System.out.println("================================================");
+//        
+//        System.out.println(Warehouse.calculateDistance("07C46", "07C05"));
+//        System.out.println(Warehouse.calculateDistance("07C05", "07C46"));
+//        
+//        System.out.println("================================================");
+//        
+//        System.out.println(Warehouse.calculateDistance("07C46", "08C05"));
+//        System.out.println(Warehouse.calculateDistance("08C05", "07C46"));
+//        
+//        System.out.println("================================================");
+//        
+//        System.out.println(Warehouse.calculateDistance("07C46", "18C05"));
+//        System.out.println(Warehouse.calculateDistance("18C05", "07C46"));
 
         //init the picker
         OrderController.init();
@@ -45,22 +65,28 @@ public class Main {
         //define which orders to do first
         HashMap<String, Order> orders = OrderDAO.getOrderByDate("01-DEC-17");
         System.out.println("Order list size: " + orders.size());
+        
+        BatchOrderDAO.setBatchOrders(ClusteringOrderList.clusterOrder(new ArrayList<Order>(orders.values())));
 
-        HashMap<String, Set<String>> batchPickingList = ClusteringOrderList.clusterOrder(new ArrayList<Order>(orders.values()));
+//        HashMap<String, Set<String>> batchPickingList = ClusteringOrderList.clusterOrder(new ArrayList<Order>(orders.values()));
+        
+//        System.out.println(batchPickingList);
 
-        System.out.println("Batch size: " + batchPickingList.size());
+        System.out.println("Batch size: " + BatchOrderDAO.getBatchOrders().size());
 
         String from = "";
 
 //        Location startLocation = new Location(Setting.startPoint, new ArrayList<PickItem>());
 //        Location endLocation = new Location(Setting.endPoint, new ArrayList<PickItem>());
-        for (String batchId : batchPickingList.keySet()) {
+        for (String batchId : BatchOrderDAO.getKeySet()) {
 
             System.out.println("===================" + batchId + "===================");
+            
+            System.out.println(BatchOrderDAO.getBatchOrder(batchId));
 
 //            System.out.println(batchPickingList.get(batchId));
             //assign out the selected orders
-            OrderController.assignOrder(batchPickingList.get(batchId));
+            OrderController.assignOrder(BatchOrderDAO.getBatchOrder(batchId));
 
             ArrayList<Picker> humanList = OrderController.getHumanList();
             ArrayList<Picker> forkliftList = OrderController.getForkLiftList();

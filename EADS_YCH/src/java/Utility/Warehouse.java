@@ -38,12 +38,17 @@ public class Warehouse {
             distanceRackUnit = calculateRackUnit(firstRack, secondRack);
         } else {
             String transitPositionRack = getPassby(firstLocation, secondLocation).substring(Setting.rackStringPosition);
-            distanceRackUnit = calculateRackUnit(firstRack, transitPositionRack);
+            
+//            System.out.println(transitPositionRack);
+            
+            distanceRackUnit += calculateRackUnit(firstRack, transitPositionRack);
+            
+            distanceRackUnit += calculateRackUnit(secondRack, transitPositionRack);
 
             int firstLaneNum = Integer.parseInt(firstLane);
             int secondLaneNum = Integer.parseInt(secondLane);
 
-            distanceLaneUnit = Math.abs(secondLaneNum - firstLaneNum) - 1;
+            distanceLaneUnit = Math.abs(secondLaneNum - firstLaneNum);
             distanceLaneSpaceUnit = roundUp(Math.abs(secondLaneNum - firstLaneNum) / 2.0);
         }
 

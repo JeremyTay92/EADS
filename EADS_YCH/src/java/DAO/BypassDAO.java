@@ -9,6 +9,7 @@ import Configuration.Setting;
 import Entity.Bypass;
 import Utility.Warehouse;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -42,43 +43,58 @@ public class BypassDAO {
     public static String getStartBypass() {
         double smallestValue = Double.MAX_VALUE;
         String position = "";
+        
+//        System.out.println(bypasses);
+        
         for (Bypass bypass : bypasses) {
             String rack = bypass.getRack();
 
-            int value = Integer.parseInt(rack.substring(0, Setting.rackNumStringLength));
+            double value = Double.parseDouble(rack.substring(0, Setting.rackNumStringLength));
+            
+            if (rack.contains("M")) {
+                value += 0.5;
+            }
 
             if (value <= smallestValue) {
+                
+//                System.out.println(rack + ": " + value);
+                
                 smallestValue = value;
-                position = Warehouse.getRackName(value);
-            }
+                position = Warehouse.getRackName((int)Math.floor(value));
 
-            if (rack.contains("M")) {
-                smallestValue += 0.5;
-                position += "M";
+                if (rack.contains("M")) {
+                    position += "M";
+                }
             }
         }
-        
-//        System.out.println(position);
 
+//        System.out.println(position);
         return position;
     }
 
     public static String getEndBypass() {
         double largestValue = Double.MIN_VALUE;
         String position = "";
+        
+//        System.out.println(bypasses);
+        
         for (Bypass bypass : bypasses) {
             String rack = bypass.getRack();
 
-            int value = Integer.parseInt(rack.substring(0, Setting.rackNumStringLength));
+            double value = Integer.parseInt(rack.substring(0, Setting.rackNumStringLength));
+            
+            if (rack.contains("M")) {
+                value += 0.5;
+            }
 
             if (value >= largestValue) {
                 largestValue = value;
-                position = Warehouse.getRackName(value);
-            }
+                position = Warehouse.getRackName((int)Math.floor(value));
 
-            if (rack.contains("M")) {
-                largestValue += 0.5;
-                position += "M";
+                if (rack.contains("M")) {
+                    position += "M";
+                }
+
             }
         }
 
@@ -92,22 +108,19 @@ public class BypassDAO {
             String starting = letters[0];
 
             char startingLevel = starting.charAt(Setting.levelRangePosition);
-            
-//            System.out.println(startingLevel);
-            
-            String startingRack = starting.substring(Setting.rackRangePosition);
-            
-//            System.out.println(startingRack);
 
+//            System.out.println(startingLevel);
+            String startingRack = starting.substring(Setting.rackRangePosition);
+
+//            System.out.println(startingRack);
             String ending = letters[letters.length - 1];
 
             char endingLevel = ending.charAt(Setting.levelRangePosition);
             String endingRack = ending.substring(Setting.rackRangePosition);
 
             for (int i = startingLevel; i <= endingLevel; i++) {
-                
+
 //                System.out.println(startingRack);
-                
                 int startRackNum = Integer.parseInt(startingRack.substring(0, Setting.rackNumRangeLength));
                 int endRackNum = Integer.parseInt(endingRack.substring(0, Setting.rackNumRangeLength));
 
@@ -132,5 +145,9 @@ public class BypassDAO {
                 }
             }
         }
+
+        Collections.sort(bypasses);
+
+//        System.out.println(bypasses);
     }
 }
