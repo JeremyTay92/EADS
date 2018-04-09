@@ -17,10 +17,12 @@
     //out.println(returnData);
     //out.println(Setting.numOfPicker);
     //out.println(Setting.numOfForkLift);
+    int totalDistance = 0;
+    TreeMap<String, Double> pickerDistance = new TreeMap<>();
+    ArrayList<String> batchNumber = new ArrayList<>(returnData.keySet());
     //out.println(returnData);
     //get distance travelled for each picker - each picker is a point on the line graph, mean line in between
     TreeMap<String, Integer> batchDistanceMap = new TreeMap<>();
-    ArrayList<String> batchNumber = new ArrayList<>(returnData.keySet());
     Iterator<Map.Entry<String, HashMap<String, ArrayList<Location>>>> it = returnData.entrySet().iterator();
     while (it.hasNext()) {
         Map.Entry<String, HashMap<String,ArrayList<Location>>>batch = it.next();
@@ -28,22 +30,37 @@
         HashMap<String, ArrayList<Location>> batchDetails = batch.getValue();
         int batchDistance = 0;
         for (String key : batchDetails.keySet()) {
+            //get currentDistance for current picker
+            Double currentPickerDistance = pickerDistance.get(key);
+            if (currentPickerDistance == null || currentPickerDistance == 0.0){
+                currentPickerDistance = 0.0;
+            }
+            
             //loop through list of locations per picker
             ArrayList<Location> locations = batchDetails.get(key);
             for (int i = 0; i < locations.size()-1; i++){
                 batchDistance += Warehouse.calculateDistance(locations.get(i).getLocation(), locations.get(i+1).getLocation());
+                currentPickerDistance += Warehouse.calculateDistance(locations.get(i).getLocation(), locations.get(i+1).getLocation());
             }
-            
+            pickerDistance.put(key, currentPickerDistance);
+            //out.println(key + " " + currentPickerDistance);
         }
+        totalDistance += batchDistance;
         batchDistanceMap.put(batchId, batchDistance);
         //out.println("Batch Id " + batchId + " has batch distance of " + batchDistance + "\n");
     }
-    
+    pageContext.setAttribute("totalDistance",totalDistance);
+    pageContext.setAttribute("batchDistanceMap",batchDistanceMap);
+    pageContext.setAttribute("pickerDistance",pickerDistance);
+    //out.println(pickerDistance);
     //get total distance covered for each batch
     //scatter plot to show distance covered per picker for each batch
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set scope="application" var="context" value=""/>
 <!DOCTYPE html>
 
 <html>
@@ -96,7 +113,7 @@
         <div class="tab">
             <button class="tablinks" onclick="openCity(event, 'Overview')">Overview</button>
             <button class="tablinks" onclick="openCity(event, 'Report')">Report</button>
-            <button class="tablinks" onclick="openCity(event, 'Layout')">Layout</button>
+            <!-- <button class="tablinks" onclick="openCity(event, 'Layout')">Layout</button> -->
             <button id="myButton" class="float-right submit-button" >Form</button>
         </div>
         
@@ -124,43 +141,31 @@
         
         <!-- @Nicholas, change in the table below -->
         <div id="Overview" class="table-users">
-           <div class="header">Overview</div>
+           <div class="header">Summary</div>
 
            <table cellspacing="0">
               <tr>
-                 <th>Picker</th>
-                 <th>Email</th>
-                 <th>Phone</th>
-                 <th width="230">Comments</th>
+                 <th class="nav">Variable</th>
+                 <th class="nav">Value</th>
               </tr>
 
               <tr>
-                 <td>Jane Doe</td>
-                 <td>jane.doe@foo.com</td>
-                 <td>01 800 2000</td>
-                 <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </td>
+                 <td>Total Distance</td>
+                 <td>${totalDistance}</td>
               </tr>
-
-              <tr>
-                 <td>John Doe</td>
-                 <td>john.doe@foo.com</td>
-                 <td>01 800 2000</td>
-                 <td>Blanditiis, aliquid numquam iure voluptatibus ut maiores explicabo ducimus neque, nesciunt rerum perferendis, inventore.</td>
-              </tr>
-
-              <tr>
-                 <td>Jane Smith</td>
-                 <td>jane.smith@foo.com</td>
-                 <td>01 800 2000</td>
-                 <td> Culpa praesentium unde pariatur fugit eos recusandae voluptas.</td>
-              </tr>
-
-              <tr>
-                 <td>John Smith</td>
-                 <td>john.smith@foo.com</td>
-                 <td>01 800 2000</td>
-                 <td>Aut voluptatum accusantium, eveniet, sapiente quaerat adipisci consequatur maxime temporibus quas, dolorem impedit.</td>
-              </tr>
+              <c:forEach var="entry" items="${pickerDistance}">
+                  <tr>
+                      <td><c:out value="${entry.key}"/></td>
+                      <td padding-left:5em><c:out value="${entry.value}"/></td>
+                  </tr>
+              </c:forEach>
+              <c:forEach var="entry" items="${batchDistanceMap}">
+                  <tr>
+                      <td><c:out value="${entry.key}"/></td>
+                      <td padding-left:5em><c:out value="${entry.value}"/></td>
+                  </tr>
+              </c:forEach>
+              
            </table>
         </div>
     </body>
@@ -248,8 +253,8 @@
                             <%
                                 } else {
                             %>
-                            <td></td>
-                            <td></td>
+                            <td> - </td>
+                            <td> - </td>
                     <%
                                 }
                             }                      
