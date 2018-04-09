@@ -141,6 +141,7 @@ public class RunAlgo {
                         route = TSP_GA.getSolutionRoute(Setting.startPoint, Setting.endPoint, localSolution, picker);
                         // print out the routes
 //                        System.out.println("Picker" + picker.toString() + ": " + TSP_GA.getSolutionRoute(Setting.startPoint, Setting.endPoint, localSolution, picker) + " (" + totalDistance + ")");
+                        route = TSP_GA.rearrange(route);
                     }
 
                     RouteManager.reset();
