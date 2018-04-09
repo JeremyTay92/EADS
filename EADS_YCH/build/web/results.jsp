@@ -60,6 +60,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set scope="application" var="context" value=""/>
 <!DOCTYPE html>
 
@@ -144,25 +145,26 @@
            <div class="header">Summary</div>
 
            <table cellspacing="0">
-              <tr>
-                 <th class="nav">Variable</th>
-                 <th class="nav">Value</th>
+              <tr class="nav">
+                 <td class="nav">Variable</td>
+                 <td class="nav">Value</td>
+              
               </tr>
 
               <tr>
                  <td>Total Distance</td>
-                 <td>${totalDistance}</td>
+                 <td><fmt:formatNumber pattern="0.00" value="${totalDistance}"/></td>
               </tr>
               <c:forEach var="entry" items="${pickerDistance}">
                   <tr>
                       <td><c:out value="${entry.key}"/></td>
-                      <td padding-left:5em><c:out value="${entry.value}"/></td>
+                      <td><fmt:formatNumber pattern="0.00" value="${entry.value}"/></td>
                   </tr>
               </c:forEach>
               <c:forEach var="entry" items="${batchDistanceMap}">
                   <tr>
                       <td><c:out value="${entry.key}"/></td>
-                      <td padding-left:5em><c:out value="${entry.value}"/></td>
+                      <td><fmt:formatNumber pattern="0.00" value="${entry.value}"/></td>
                   </tr>
               </c:forEach>
               
