@@ -65,13 +65,11 @@ public class Main {
         //define which orders to do first
         HashMap<String, Order> orders = OrderDAO.getOrderByDate("01-DEC-17");
         System.out.println("Order list size: " + orders.size());
-        
+
         BatchOrderDAO.setBatchOrders(ClusteringOrderList.clusterOrder(new ArrayList<Order>(orders.values())));
 
 //        HashMap<String, Set<String>> batchPickingList = ClusteringOrderList.clusterOrder(new ArrayList<Order>(orders.values()));
-        
 //        System.out.println(batchPickingList);
-
         System.out.println("Batch size: " + BatchOrderDAO.getBatchOrders().size());
 
         String from = "";
@@ -81,7 +79,7 @@ public class Main {
         for (String batchId : BatchOrderDAO.getKeySet()) {
 
             System.out.println("===================" + batchId + "===================");
-            
+
             System.out.println(BatchOrderDAO.getBatchOrder(batchId));
 
 //            System.out.println(batchPickingList.get(batchId));
@@ -101,7 +99,7 @@ public class Main {
                     continue;
                 } else if (picker.getPickingList().size() == 1) {
                     from = "";
-                    
+
                     ArrayList<Location> tempRoute = new ArrayList<Location>();
                     tempRoute.add(new Location(Setting.startPoint, new ArrayList<PickItem>()));
 
@@ -148,7 +146,7 @@ public class Main {
 
                     if (pop != null) {
                         ArrayList<Location> currentSolution = pop.getFittest().getRoute();
-                        
+
                         TwoOpt twoOpt = new TwoOpt(Setting.startPoint, Setting.endPoint, currentSolution, Setting.humanWeightBudget, Setting.humanSizeBudget);
                         ArrayList<Location> localSolution = twoOpt.getSolution();
                         // get the total distance travelled
@@ -159,6 +157,8 @@ public class Main {
                         route = TSP_GA.getSolutionRoute(Setting.startPoint, Setting.endPoint, localSolution, picker);
                         // print out the routes
 //                        System.out.println("Picker" + picker.toString() + ": " + TSP_GA.getSolutionRoute(Setting.startPoint, Setting.endPoint, localSolution, picker) + " (" + totalDistance + ")");
+
+                        route = TSP_GA.rearrange(route);
                     }
 
                     RouteManager.reset();
@@ -181,7 +181,6 @@ public class Main {
 //                    }
 //
 //                    System.exit(1);
-
                 } else {
 
 //                    for (Location loc : route) {
@@ -190,7 +189,6 @@ public class Main {
 //                            System.exit(1);
 //                        }
 //                    }
-
                     System.out.println(from + "Picker-" + picker.toString() + ": " + route);
                 }
 
@@ -244,6 +242,8 @@ public class Main {
 //                        double totalDistance = twoOpt.evaluationSolution(localSolution);
 
                         route = TSP_GA.getSolutionRoute(Setting.startPoint, Setting.endPoint, localSolution, picker);
+                        
+                        route = TSP_GA.rearrange(route);
 //
 //System.out.println("Picker" + picker.toString() + ": " + totalDistance);
 
@@ -270,18 +270,16 @@ public class Main {
 //                    }
 //
 //                    System.exit(1);
-
                 } else {
 
                     System.out.println(from + "ForkLift-" + picker.toString() + ": " + route);
-                    
+
 //                    for (Location loc : route) {
 //                        if (loc.getPickingList().size() > 1) {
 //                            System.out.println(loc.getPickingList());
 //                            System.exit(1);
 //                        }
 //                    }
-
                 }
             }
 

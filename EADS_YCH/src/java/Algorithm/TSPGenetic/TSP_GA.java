@@ -12,6 +12,9 @@ import Entity.Picker;
 import Entity.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -117,7 +120,6 @@ public class TSP_GA {
 //        if (locations.isEmpty()) {
 //            return null;
 //        }
-
         // Create and add our cities
 //        RouteManager rm = new RouteManager();
         RouteManager.setStartLocation(new Location(start, new ArrayList<PickItem>()));
@@ -126,8 +128,8 @@ public class TSP_GA {
         RouteManager.setWeightCapacity(weightCapacity);
 
         ArrayList<PickItem> list = picker.getPickingList();
-        
-        if(list.isEmpty()){
+
+        if (list.isEmpty()) {
             return null;
         }
 
@@ -164,5 +166,47 @@ public class TSP_GA {
 
     public static double randomValue() {
         return 5 + Math.random() * 20;
+    }
+
+    public static ArrayList<Location> rearrange(ArrayList<Location> currentSolution) {
+        ArrayList<Location> newSolution = new ArrayList<Location>();
+
+        Queue<Location> queue = new LinkedList<Location>();
+        Set<String> location = new HashSet<String>();
+        HashMap<String, ArrayList<Location>> locationMap = new HashMap<String, ArrayList<Location>>();
+
+        for (Location loc : currentSolution) {
+            if (loc.location.equals(Setting.startPoint) || loc.location.equals(Setting.endPoint)) {
+
+                while (queue.peek() != null) {
+                    Location tempLocation = queue.poll();
+                    String locStr = tempLocation.location;
+                    newSolution.addAll(locationMap.get(locStr));
+                }
+
+                newSolution.add(loc);
+
+                queue = new LinkedList<Location>();
+                location = new HashSet<String>();
+                locationMap = new HashMap<String, ArrayList<Location>>();
+
+            } else {
+                if (location.add(loc.location)) {
+                    queue.add(loc);
+                }
+                
+                if(locationMap.containsKey(loc.location)){
+                    ArrayList<Location> tempList = locationMap.get(loc.location);
+                    tempList.add(loc);
+                    locationMap.put(loc.location, tempList);
+                }else{
+                    ArrayList<Location> tempList = new ArrayList<Location>();
+                    tempList.add(loc);
+                    locationMap.put(loc.location, tempList);
+                }
+            }
+        }
+        
+        return newSolution;
     }
 }
