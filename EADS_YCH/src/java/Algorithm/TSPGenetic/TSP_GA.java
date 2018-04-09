@@ -111,12 +111,12 @@ public class TSP_GA {
         return solution;
     }
 
-    public static Population search(String start, String goal, Set<String> locations, double weightCapacity, double sizeCapacity, Picker picker, int populationSize, int generationSize) {
+    public static Population search(String start, String goal, double weightCapacity, double sizeCapacity, Picker picker, int populationSize, int generationSize) {
 
 //        HashMap<String, Object> result = new HashMap<String, Object>();
-        if (locations.isEmpty()) {
-            return null;
-        }
+//        if (locations.isEmpty()) {
+//            return null;
+//        }
 
         // Create and add our cities
 //        RouteManager rm = new RouteManager();
@@ -126,6 +126,10 @@ public class TSP_GA {
         RouteManager.setWeightCapacity(weightCapacity);
 
         ArrayList<PickItem> list = picker.getPickingList();
+        
+        if(list.isEmpty()){
+            return null;
+        }
 
         for (PickItem item : list) {
             ArrayList<PickItem> tempList = new ArrayList<PickItem>();

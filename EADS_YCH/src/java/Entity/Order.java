@@ -84,11 +84,11 @@ public class Order {
 
         ArrayList<OrderLine> humanLevelItem = getHumanLevelItem();
 
-        Set<String> locations = new HashSet<String>();
+//        Set<String> locations = new HashSet<String>();
         ArrayList<PickItem> pickingList = new ArrayList<PickItem>();
 
         for (OrderLine item : humanLevelItem) {
-            locations.add(item.getLocation());
+//            locations.add(item.getLocation());
 //            PickItem tempItem = new PickItem(item.getProductSKU(), item.getLocation(), item.getNumOfCarton());
 //            pickingList.add(tempItem);
 
@@ -99,7 +99,7 @@ public class Order {
 
         tempPicker.setPickingList(pickingList);
 
-        Population pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, locations, Integer.MAX_VALUE, Integer.MAX_VALUE, tempPicker, Setting.clusterPopulationSize, Setting.clusterGenerationSize);
+        Population pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, Integer.MAX_VALUE, Integer.MAX_VALUE, tempPicker, Setting.clusterPopulationSize, Setting.clusterGenerationSize);
         double humanLevelDist = 0.0;
         if (pop != null) {
             humanLevelDist = pop.getFittest().getDistance();
@@ -110,7 +110,7 @@ public class Order {
         ArrayList<OrderLine> otherHumanLevelItem = anotherOrder.getHumanLevelItem();
 
         for (OrderLine item : otherHumanLevelItem) {
-            locations.add(item.getLocation());
+//            locations.add(item.getLocation());
 //            PickItem tempItem = new PickItem(item.getProductSKU(), item.getLocation(), item.getNumOfCarton());
 //            pickingList.add(tempItem);
 
@@ -121,7 +121,7 @@ public class Order {
 
         tempPicker.setPickingList(pickingList);
 
-        pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, locations, Integer.MAX_VALUE, Integer.MAX_VALUE, tempPicker, Setting.clusterPopulationSize, Setting.clusterGenerationSize);
+        pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, Double.MAX_VALUE, Double.MAX_VALUE, tempPicker, Setting.clusterPopulationSize, Setting.clusterGenerationSize);
         double newHumanLevelDist = 0.0;
         if (pop != null) {
             newHumanLevelDist = pop.getFittest().getDistance();
@@ -136,13 +136,13 @@ public class Order {
         }
 
         tempPicker.clearPickingList();
-        locations = new HashSet<String>();
+//        locations = new HashSet<String>();
         pickingList = new ArrayList<PickItem>();
 
         ArrayList<OrderLine> forkLevelItem = getHighLevelItem();
 
         for (OrderLine item : forkLevelItem) {
-            locations.add(item.getLocation());
+//            locations.add(item.getLocation());
 //            PickItem tempItem = new PickItem(item.getProductSKU(), item.getLocation(), item.getNumOfCarton());
 //            pickingList.add(tempItem);
 
@@ -153,7 +153,7 @@ public class Order {
 
         tempPicker.setPickingList(pickingList);
 
-        pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, locations, Integer.MAX_VALUE, Integer.MAX_VALUE, tempPicker, Setting.clusterPopulationSize, Setting.clusterGenerationSize);
+        pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, Double.MAX_VALUE, Double.MAX_VALUE, tempPicker, Setting.clusterPopulationSize, Setting.clusterGenerationSize);
         double forkLevelDist = 0.0;
         if (pop != null) {
             forkLevelDist = pop.getFittest().getDistance();
@@ -164,7 +164,7 @@ public class Order {
         ArrayList<OrderLine> otherForkLevelItem = anotherOrder.getHighLevelItem();
 
         for (OrderLine item : otherForkLevelItem) {
-            locations.add(item.getLocation());
+//            locations.add(item.getLocation());
 //            PickItem tempItem = new PickItem(item.getProductSKU(), item.getLocation(), item.getNumOfCarton());
 //            pickingList.add(tempItem);
 
@@ -175,7 +175,7 @@ public class Order {
 
         tempPicker.setPickingList(pickingList);
 
-        pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, locations, Integer.MAX_VALUE, Integer.MAX_VALUE, tempPicker, Setting.clusterPopulationSize, Setting.clusterGenerationSize);
+        pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, Integer.MAX_VALUE, Integer.MAX_VALUE, tempPicker, Setting.clusterPopulationSize, Setting.clusterGenerationSize);
         double newForkLevelDist = 0.0;
         if (pop != null) {
             newForkLevelDist = pop.getFittest().getDistance();
@@ -184,7 +184,7 @@ public class Order {
         RouteManager.reset();
 
         tempPicker.clearPickingList();
-        locations = new HashSet<String>();
+//        locations = new HashSet<String>();
         pickingList = new ArrayList<PickItem>();
 
         if (forkLevelDist > 0 && forkLevelDist * (1 + threshold) < newForkLevelDist) {

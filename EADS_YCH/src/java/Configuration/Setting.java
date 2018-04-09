@@ -11,7 +11,7 @@ package Configuration;
  */
 public class Setting {
     public static String directory = "C:\\Users\\Jeremy\\Downloads\\EADS (IS421)\\Proj\\Project\\EADS_YCH";
-    public static String fileName = directory + "\\test\\SMU SIS EADS Data v1.xlsx";
+    public static String fileName = directory + "\\test\\SMU SIS EADS Data v3.xlsx";
     public static String startPoint = "05X07";
     public static String endPoint = "18X07";
     

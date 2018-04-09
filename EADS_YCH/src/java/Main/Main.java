@@ -100,6 +100,8 @@ public class Main {
 //                    System.out.println("EMPTY - " + picker);
                     continue;
                 } else if (picker.getPickingList().size() == 1) {
+                    from = "";
+                    
                     ArrayList<Location> tempRoute = new ArrayList<Location>();
                     tempRoute.add(new Location(Setting.startPoint, new ArrayList<PickItem>()));
 
@@ -142,7 +144,7 @@ public class Main {
 //                    System.out.println(picker.getAllLocation());
                     from = "GA-";
 
-                    Population pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, picker.getAllLocation(), Setting.humanWeightBudget, Setting.humanSizeBudget, picker, Setting.populationSize, Setting.generationSize);
+                    Population pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, Setting.humanWeightBudget, Setting.humanSizeBudget, picker, Setting.populationSize, Setting.generationSize);
 
                     if (pop != null) {
                         ArrayList<Location> currentSolution = pop.getFittest().getRoute();
@@ -230,7 +232,7 @@ public class Main {
 //                    System.out.println(picker.getAllLocation());
                     from = "GA-";
 
-                    Population pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, picker.getAllLocation(), Setting.forkliftWeightBudget, Setting.forkliftSizeBudget, picker, Setting.populationSize, Setting.generationSize);
+                    Population pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, Setting.forkliftWeightBudget, Setting.forkliftSizeBudget, picker, Setting.populationSize, Setting.generationSize);
 
                     if (pop != null) {
                         ArrayList<Location> currentSolution = pop.getFittest().getRoute();

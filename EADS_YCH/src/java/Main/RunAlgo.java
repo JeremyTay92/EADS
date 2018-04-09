@@ -44,7 +44,9 @@ public class RunAlgo {
         OrderDAO.loadData(Setting.fileName);
         BypassDAO.setBypasses("B29:B30,X29:Z30");
         LevelDAO.setHumanLevel("X:Z");
-
+        
+        long startTime = System.nanoTime();
+        
         //init the picker
         OrderController.init();
 
@@ -124,7 +126,7 @@ public class RunAlgo {
 //                    System.out.println(picker.getAllLocation());
                     from = "GA-";
 
-                    Population pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, picker.getAllLocation(), Setting.humanWeightBudget, Setting.humanSizeBudget, picker, Setting.populationSize, Setting.generationSize);
+                    Population pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, Setting.humanWeightBudget, Setting.humanSizeBudget, picker, Setting.populationSize, Setting.generationSize);
 
                     if (pop != null) {
                         ArrayList<Location> currentSolution = pop.getFittest().getRoute();
@@ -213,7 +215,7 @@ public class RunAlgo {
 //                    System.out.println(picker.getAllLocation());
                     from = "GA-";
 
-                    Population pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, picker.getAllLocation(), Setting.forkliftWeightBudget, Setting.forkliftSizeBudget, picker, Setting.populationSize, Setting.generationSize);
+                    Population pop = TSP_GA.search(Setting.startPoint, Setting.endPoint, Setting.forkliftWeightBudget, Setting.forkliftSizeBudget, picker, Setting.populationSize, Setting.generationSize);
 
                     if (pop != null) {
                         ArrayList<Location> currentSolution = pop.getFittest().getRoute();
@@ -274,6 +276,11 @@ public class RunAlgo {
             }
             System.out.println("================================================");
         }
+                
+
+                long endTime   = System.nanoTime();
+                long totalTime = endTime - startTime;
+                System.out.println("seconds :" + totalTime/1000000000);
 		return returnData;
     }
 }
