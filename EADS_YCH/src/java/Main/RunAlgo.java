@@ -19,6 +19,7 @@ import Algorithm.TSPGenetic.TSP_GA;
 import CPLEX.TeamOrienteeringProblem;
 import Configuration.Setting;
 import Controller.OrderController;
+import DAO.BatchOrderDAO;
 import DAO.BypassDAO;
 import DAO.LevelDAO;
 import DAO.OrderDAO;
@@ -52,9 +53,12 @@ public class RunAlgo {
 
         //define which orders to do first
         HashMap<String, Order> orders = OrderDAO.getOrderByDate("01-DEC-17");
+        
+        BatchOrderDAO.setBatchOrders(ClusteringOrderList.clusterOrder(new ArrayList<Order>(orders.values())));
+        
         System.out.println("Order list size: " + orders.size());
 
-        HashMap<String, Set<String>> batchPickingList = ClusteringOrderList.clusterOrder(new ArrayList<Order>(orders.values()));
+        HashMap<String, Set<String>> batchPickingList = BatchOrderDAO.getBatchOrders();
 
         System.out.println("Batch size: " + batchPickingList.size());
 
@@ -271,9 +275,9 @@ public class RunAlgo {
             }
 			int batchNumber = Integer.parseInt(batchId.replace("batch",""));
             if (batchNumber<10){
-                returnData.put("Batch 0"+batchNumber,batchData);
+                returnData.put(batchId,batchData);
             } else {
-                returnData.put("Batch "+batchNumber,batchData);
+                returnData.put(batchId,batchData);
             }
             System.out.println("================================================");
         }

@@ -36,27 +36,27 @@ public class BenchmarkMain {
         LevelDAO.setHumanLevel("X:Z");
 
 //        String productSKU, String location, double noOfCarton
-//        pickingList.add(new PickItem("212343", "07X15M", 1));
-        pickingList.add(new PickItem("212343", "14X12", 1));
-        pickingList.add(new PickItem("212343", "12X27", 1));
-        pickingList.add(new PickItem("214352", "13X13M", 1));
-        pickingList.add(new PickItem("212343", "07X15M", 1));
-        pickingList.add(new PickItem("212343", "14X12", 1));
-        pickingList.add(new PickItem("212343", "12X27", 1));
-        pickingList.add(new PickItem("214352", "13X13M", 1));
         pickingList.add(new PickItem("212343", "07X15M", 1));
 //        pickingList.add(new PickItem("212343", "14X12", 1));
 //        pickingList.add(new PickItem("212343", "12X27", 1));
         pickingList.add(new PickItem("214352", "13X13M", 1));
+//        pickingList.add(new PickItem("212343", "07X15M", 1));
+        pickingList.add(new PickItem("212343", "14X12", 1));
+//        pickingList.add(new PickItem("212343", "12X27", 1));
+        pickingList.add(new PickItem("214352", "13X13M", 1));
         pickingList.add(new PickItem("212343", "07X15M", 1));
 //        pickingList.add(new PickItem("212343", "14X12", 1));
-        pickingList.add(new PickItem("212343", "12X27", 1));
-        pickingList.add(new PickItem("214352", "13X13M", 1));
+//        pickingList.add(new PickItem("212343", "12X27", 1));
+//        pickingList.add(new PickItem("214352", "13X13M", 1));
         pickingList.add(new PickItem("212343", "07X15M", 1));
-        pickingList.add(new PickItem("212343", "14X12", 1));
-        pickingList.add(new PickItem("212343", "12X27", 1));
+//        pickingList.add(new PickItem("212343", "14X12", 1));
+//        pickingList.add(new PickItem("212343", "12X27", 1));
+//        pickingList.add(new PickItem("214352", "13X13M", 1));
+//        pickingList.add(new PickItem("212343", "07X15M", 1));
+//        pickingList.add(new PickItem("212343", "14X12", 1));
+//        pickingList.add(new PickItem("212343", "12X27", 1));
         pickingList.add(new PickItem("214352", "13X13M", 1));
-        pickingList.add(new PickItem("212343", "07X15M", 1));
+//        pickingList.add(new PickItem("212343", "07X15M", 1));
         pickingList.add(new PickItem("212343", "14X12", 1));
         pickingList.add(new PickItem("212343", "12X27", 1));
 //        pickingList.add(new PickItem("214352", "13X13M", 1));
@@ -83,7 +83,7 @@ public class BenchmarkMain {
     public static void opl(ArrayList<PickItem> pickingList) throws Exception {
         ArrayList<ArrayList<PickItem>> result = TeamOrienteeringProblem.solveModel(Setting.startPoint, Setting.endPoint, pickingList, Setting.humanWeightBudget, Setting.humanSizeBudget);
         System.out.println(TeamOrienteeringProblem.convertToLocation(result, Setting.startPoint, Setting.endPoint));
-        //System.out.println(calculateDistance(TeamOrienteeringProblem.convertToLocation(result, Setting.startPoint, Setting.endPoint)));
+        System.out.println(calculateDistance(TeamOrienteeringProblem.convertToLocation(result, Setting.startPoint, Setting.endPoint)));
     }
 
     public static void ga(ArrayList<PickItem> pickingList) {
@@ -101,16 +101,18 @@ public class BenchmarkMain {
             // get the total distance travelled
 //                        double totalDistance = twoOpt.evaluationSolution(localSolution);
 
-            System.out.println(TSP_GA.getSolutionRoute(Setting.startPoint, Setting.endPoint, localSolution, picker));
-            //System.out.println(calculateDistance(TSP_GA.getSolutionRoute(Setting.startPoint, Setting.endPoint, localSolution, picker)));
+            ArrayList<Location> route = TSP_GA.getSolutionRoute(Setting.startPoint, Setting.endPoint, localSolution, picker);
+            route = TSP_GA.rearrange(route);
+            System.out.println(route);
+            System.out.println(calculateDistance(TSP_GA.getSolutionRoute(Setting.startPoint, Setting.endPoint, localSolution, picker)));
         }
     }
 
     public static double calculateDistance(ArrayList<Location> list) {
         double distance = 0;
-            for (int i = 0; i < list.size()-1; i++){
-                distance += Warehouse.calculateDistance(list.get(i).getLocation(), list.get(i+1).getLocation());
-            }
+        for (int i = 0; i < list.size() - 1; i++) {
+            distance += Warehouse.calculateDistance(list.get(i).getLocation(), list.get(i + 1).getLocation());
+        }
         return distance;
     }
 }

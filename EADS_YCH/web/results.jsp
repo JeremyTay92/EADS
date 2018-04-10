@@ -3,6 +3,7 @@
     Created on : Mar 29, 2018, 9:48:48 PM
     Author     : Jeremy
 --%>
+<%@page import="DAO.BatchOrderDAO"%>
 <%@page import="Entity.PickItem"%>
 <%@page import="Utility.Warehouse"%>
 <%@page import="java.util.Map"%>
@@ -19,6 +20,7 @@
     //out.println(Setting.numOfForkLift);
     int totalDistance = 0;
     TreeMap<String, Double> pickerDistance = new TreeMap<>();
+    
     ArrayList<String> batchNumber = new ArrayList<>(returnData.keySet());
     //out.println(returnData);
     //get distance travelled for each picker - each picker is a point on the line graph, mean line in between
@@ -147,7 +149,7 @@
            <table cellspacing="0">
               <tr class="nav">
                  <td class="nav">Variable</td>
-                 <td class="nav">Value</td>
+                 <td class="nav">Distance (m)</td>
               
               </tr>
 
@@ -179,7 +181,7 @@
             %>
             <header class="header">
                 <%
-                    out.println(batch);
+                    out.println(batch + ": " + BatchOrderDAO.getBatchOrder(batch));
                 %>      
             </header>
 
